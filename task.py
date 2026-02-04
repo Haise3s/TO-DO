@@ -35,12 +35,11 @@ class Task:
     @classmethod
     def from_dict(cls, data):
         task = cls(
-            task=data['task'],
-            description=data.get('description', ''),
-            status=data.get('status', 'Активно'),
-            id=data['id']
+            task = data['task'],
+            description = data.get('description', ''),
+            status = data.get('status', 'Активно'),
+            id = data['id']
         )
         
         task.created_at = datetime.fromisoformat(data['created_at'])
         return task
-            
