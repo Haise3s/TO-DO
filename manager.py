@@ -75,7 +75,3 @@ class TaskManager():
         except Exception as e:
             print(f"Неизвестная ошибка: {e}")
             return False
-
-    def __del__(self):
-        if self.autosave:
-            self.save_tasks()
