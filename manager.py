@@ -3,7 +3,7 @@ from task import Task
 class TaskManager():
     def __init__(self, filename = "tasks.json"):
         self.filename = filename
-        self.next_id = 1
+        self.next_id = 0
         self.tasks = []
     
     def add_task(self, title, description = ""):

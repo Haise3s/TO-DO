@@ -4,7 +4,6 @@ class Task:
     
     def __init__(self,task,description = '', status = 'Активно',id = None):
         self.id = id
-        self.id = Task.task_count
         self.task = task
         self.description = description
         self.status = status
@@ -34,16 +33,14 @@ class Task:
             'created_at': self.created_at.isoformat()
         }
     @classmethod
-    def from_dict(cls,data):
+    def from_dict(cls, data):
         task = cls(
-            task = data ['task'],
-            description = data.get('description',''),
-            status  = data.get('status','Активно')
+            task=data['task'],
+            description=data.get('description', ''),
+            status=data.get('status', 'Активно'),
+            id=data['id']
         )
-        task.id = data['id']
-        if data['id'] >= Task.task_count:
-            Task.task_count = data['id'] + 1
         
-        task.created_at =  datetime.fromisoformat(data['created_at'])
+        task.created_at = datetime.fromisoformat(data['created_at'])
         return task
         

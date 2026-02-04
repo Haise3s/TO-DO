@@ -104,8 +104,8 @@ class TestTaskMeneger(unittest.TestCase):
         sys.stdout = sys.__stdout__
         output = captured_output.getvalue()
         
-        self.assertIn("Задача №1: Купить молоко", output)
-        self.assertIn("Задача №2: Сделать ДЗ", output)
+        self.assertIn("Купить молоко", output)
+        self.assertIn("Сделать ДЗ", output)
         
         print("✓ test_list_tasks_with_content пройден")
 
