@@ -10,7 +10,7 @@ class TestTask(unittest.TestCase):
         task = Task(title,desc)
         self.assertEqual(task.task, title)
         self.assertEqual(task.description, desc)
-        self.assertEqual(task.status, "АктивнSо")
+        self.assertEqual(task.status, "Активно")
         self.assertIsInstance(task.created_at, datetime)
         print("✓ test_create_task_basic успешно пройден")
 
