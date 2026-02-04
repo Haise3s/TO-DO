@@ -1,10 +1,9 @@
 from datetime import datetime
 
 class Task:
-    task_count = 0
-
-    def __init__(self,task,description = '', status = 'Активно'):
-        Task.task_count +=1
+    
+    def __init__(self,task,description = '', status = 'Активно',id = None):
+        self.id = id
         self.id = Task.task_count
         self.task = task
         self.description = description

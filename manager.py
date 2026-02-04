@@ -3,10 +3,12 @@ from task import Task
 class TaskManager():
     def __init__(self, filename = "tasks.json"):
         self.filename = filename
+        self.next_id = 1
         self.tasks = []
     
     def add_task(self, title, description = ""):
-        self.tasks.append(Task(title, description))
+        self.next_id +=1
+        self.tasks.append(Task(title, description, id = self.next_id))
     
     def list_tasks(self):
         if self.tasks:
