@@ -36,6 +36,7 @@ class TaskManager():
         self.tasks.append(Task(title, description, id = self.next_id))
         if self.autosave:
             self.save_tasks()
+            
     def list_tasks(self):
         if self.tasks:
             for task in self.tasks:
@@ -75,4 +76,3 @@ class TaskManager():
         except Exception as e:
             print(f"Неизвестная ошибка: {e}")
             return False
-    
