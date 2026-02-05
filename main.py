@@ -4,7 +4,7 @@ def print_menu():
     print("\n" + "="*50)
     print("TODO LIST МЕНЕДЖЕР")
     print("="*50)
-    print("1. 📋 Показать все задачи")
+    print("1. 📋 Показать задачи")
     print("2. ➕ Добавить задачу")
     print("3. ✅ Отметить задачу как выполненную")
     print("4. ❌ Удалить задачу")
@@ -14,17 +14,42 @@ def print_menu():
     print("="*50)
 
 def show_all_tasks(manager):
-    print("\n=== ВСЕ ЗАДАЧИ ===")
     if not manager.tasks:
         print("📭 Список задач пуст.")
     else:
-        for task in manager.tasks:
-            status_icon = "✅" if task.status == "Выполнено" else "⏳"
-            print(f"\n{task.id:3}. {status_icon} {task.title}")
-            if task.description:
-                print(f"   📝 Описание: {task.description}")
-            print(f"   🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
-            print(f"   📊 Статус: {task.status}")
+        print("1. Показать активные задачи")
+        print("2. Показать выполненные задачи")
+        print("3. Показать все задачи")
+        choice = input("\nВыберите действие (1-3): ").strip()
+        if choice == '1':
+            print("\n===📊 АКТИВНЫЕ ЗАДАЧИ 📊===")
+            for task in manager.tasks:
+                if task.status == 'Активно':  
+                    status_icon =  "⏳"
+                    print(f"\n{task.id:3}. {status_icon} {task.title}")
+                    if task.description:
+                        print(f"   📝 Описание: {task.description}")
+                    print(f"   🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
+                    print(f"   📊 Статус: {task.status}")
+        if choice == '2':
+            print("\n===✅ ВЫПОЛНЕНЫЕ ЗАДАЧИ ✅ ===")
+            for task in manager.tasks:
+                if task.status == 'Выполнено':  
+                    status_icon = "✅"
+                    print(f"\n{task.id:3}. {status_icon} {task.title}")
+                    if task.description:
+                        print(f"   📝 Описание: {task.description}")
+                    print(f"   🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
+                    print(f"   📊 Статус: {task.status}")
+        if choice == '3':
+            print("\n=== ВСЕ ЗАДАЧИ ===")
+            for task in manager.tasks:
+                status_icon = "✅" if task.status == "Выполнено" else "⏳"
+                print(f"\n{task.id:3}. {status_icon} {task.title}")
+                if task.description:
+                    print(f"   📝 Описание: {task.description}")
+                print(f"   🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
+                print(f"   📊 Статус: {task.status}")
 
 def add_new_task(manager):
     print("\n=== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===")
@@ -114,6 +139,7 @@ def main():
         else:
             print("❌ Неверный выбор. Попробуйте снова.")
         
+
         input("\n📝 Нажмите Enter чтобы продолжить...")
 
 if __name__ == "__main__":
@@ -123,7 +149,3 @@ if __name__ == "__main__":
         print("\n\n👋 Программа завершена пользователем.")
     except Exception as e:
         print(f"\n❌ Критическая ошибка: {e}")
-        asdasd
-        asdasd
-        asdasd
-        
