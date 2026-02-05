@@ -1,4 +1,5 @@
 from manager import TaskManager
+from utilits import print_task_card
 
 def print_menu():
     print("\n" + "="*50)
@@ -24,29 +25,18 @@ def show_tasks(manager):
         choice_dict = {'1':"\n===📊 АКТИВНЫЕ ЗАДАЧИ 📊===",
                         '2':"\n===✅ ВЫПОЛНЕНЫЕ ЗАДАЧИ ✅ ===",
                         '3':"\n=== ВСЕ ЗАДАЧИ ==="}
+        if choice not in choice_dict:
+            print("❌ Неверный выбор подменю. Попробуйте снова.")
+            return 
+        
         print(choice_dict[choice])
         for task in manager.tasks:
             if choice == '1' and task.status == 'Активно': 
-                status_icon =  "⏳"
-                print(f"\n{task.id:3}. {status_icon} {task.title}")
-                if task.description:
-                    print(f"   📝 Описание: {task.description}")
-                    print(f"   🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
-                    print(f"   📊 Статус: {task.status}")
+                print_task_card(task)
             elif choice == '2' and task.status == 'Выполнено':
-                status_icon = "✅"
-                print(f"\n{task.id:3}. {status_icon} {task.title}")
-                if task.description:
-                    print(f"   📝 Описание: {task.description}")
-                    print(f"   🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
-                    print(f"   📊 Статус: {task.status}")
+                print_task_card(task)
             elif choice == '3':
-                status_icon = "✅" if task.status == "Выполнено" else "⏳"
-                print(f"\n{task.id:3}. {status_icon} {task.title}")
-                if task.description:
-                    print(f"   📝 Описание: {task.description}")
-                    print(f"   🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
-                    print(f"   📊 Статус: {task.status}") 
+                print_task_card(task)
 
 def show_tasks_for_delete(manager):
     if not manager.tasks:
@@ -56,6 +46,9 @@ def show_tasks_for_delete(manager):
         print("2. Удалить все выполненные задачи")
         print("3. Удалить все задачи")
         choice = input("\nВыберите действие (1-3): ").strip()
+        if choice not in '123':
+            print("❌ Неверный выбор подменю. Попробуйте снова.")
+            return 
         if choice == '1': 
             print("\n=== ВЫБЕРИТЕ ЗАДАЧУ ===")
             for task in manager.tasks:
