@@ -20,7 +20,7 @@ def show_all_tasks(manager):
     else:
         for task in manager.tasks:
             status_icon = "✅" if task.status == "Выполнено" else "⏳"
-            print(f"\n{task.id:3}. {status_icon} {task.task}")
+            print(f"\n{task.id:3}. {status_icon} {task.title}")
             if task.description:
                 print(f"   📝 Описание: {task.description}")
             print(f"   🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
@@ -73,7 +73,7 @@ def find_task(manager):
         
         print(f"\n=== ЗАДАЧА #{task_id} ===")
         status_icon = "✅" if task.status == "Выполнено" else "⏳"
-        print(f"{status_icon} {task.task}")
+        print(f"{status_icon} {task.title}")
         if task.description:
             print(f"📝 Описание: {task.description}")
         print(f"🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")

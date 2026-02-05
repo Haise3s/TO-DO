@@ -27,7 +27,7 @@ class TaskManager():
             self.next_id = 0
             
         except json.JSONDecodeError:
-            print(f"Файл {self.filename} поврежден. Начинаем с пустого списка задач.")
+            print(f"Файл {self.filename} пуст или поврежден. Начинаем с пустого списка задач.")
             self.tasks = []
             self.next_id = 0
 
