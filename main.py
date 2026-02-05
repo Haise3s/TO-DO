@@ -91,7 +91,6 @@ def add_new_task(manager):
 
 def complete_task(manager):
     show_tasks_for_complete(manager)
-    
     try:
         task_id = int(input("\nВведите ID задачи для отметки: "))
         manager.complete_task(task_id)
@@ -113,9 +112,15 @@ def delete_task(manager):
         except Exception as e:
             print(f"❌ Ошибка: {e}")
     if choise == '2':
-        pass
+        for task in  list(manager.tasks):
+            if task.status == 'Выполнено':
+                manager.delete_task(task.id)
+        print(f"Все выполенные задачи были успешно удалены!✅")
     if choise == '3':
-        pass
+        for task in list(manager.tasks):
+            manager.delete_task(task.id)
+        print(f"Все задачи были успешно удалены!✅📝")
+
 def find_task(manager):
     try:
         task_id = int(input("\nВведите ID задачи для поиска: "))
