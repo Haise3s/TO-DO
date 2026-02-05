@@ -15,7 +15,7 @@ class TestTaskMeneger(unittest.TestCase):
         self.manager.add_task("Тестовая задача", "Описание")
         
         self.assertEqual(len(self.manager.tasks), initial_count + 1)
-        self.assertEqual(self.manager.tasks[-1].task, "Тестовая задача")
+        self.assertEqual(self.manager.tasks[-1].title, "Тестовая задача")
         print("✓ test_add_task пройден")
     
     def test_add_multiple_tasks(self):
@@ -33,7 +33,7 @@ class TestTaskMeneger(unittest.TestCase):
         
         self.assertIsNotNone(task)
         self.assertEqual(task.id, 1)
-        self.assertEqual(task.task, "Найти меня")
+        self.assertEqual(task.title, "Найти меня")
         print("✓ test_get_task_success пройден")
     
     def test_get_task_not_found(self):
@@ -58,7 +58,7 @@ class TestTaskMeneger(unittest.TestCase):
             self.manager.get_task(1)  
         
         task2 = self.manager.get_task(2)
-        self.assertEqual(task2.task, "Остаться")
+        self.assertEqual(task2.title, "Остаться")
         print("✓ test_delete_task пройден")
     
     def test_complete_task(self):

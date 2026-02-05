@@ -8,7 +8,7 @@ class TestTask(unittest.TestCase):
         desc = "Описание задачи"
 
         task = Task(title,desc)
-        self.assertEqual(task.task, title)
+        self.assertEqual(task.title, title)
         self.assertEqual(task.description, desc)
         self.assertEqual(task.status, "Активно")
         self.assertIsInstance(task.created_at, datetime)
@@ -24,7 +24,7 @@ class TestTask(unittest.TestCase):
     def test_to_dict(self):
         task = Task('Тесты', 'Описание')
         result = task.to_dict()
-        expected_keys = ['id','task','description','status','created_at'] 
+        expected_keys = ['id','title','description','status','created_at'] 
         for key in expected_keys:
             self.assertIn(key, result)
 

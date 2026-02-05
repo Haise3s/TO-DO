@@ -1,7 +1,7 @@
 from task import Task
 import json
 class TaskManager():
-    def __init__(self, filename = "tasks.json", autoload = True, autosave = True):
+    def __init__(self, filename = "tasks.json", autoload = False, autosave = False):
         self.filename = filename
         self.next_id = 0
         self.tasks = []
@@ -32,11 +32,15 @@ class TaskManager():
             self.next_id = 0
 
     def add_task(self, title, description = ""):
-        self.next_id +=1
-        self.tasks.append(Task(title, description, id = self.next_id))
+        self.next_id += 1
+        task = Task(title, description, id = self.next_id) 
+        self.tasks.append(task)
+        
         if self.autosave:
             self.save_tasks()
-            
+        
+        return task.id
+    
     def list_tasks(self):
         if self.tasks:
             for task in self.tasks:

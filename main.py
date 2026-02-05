@@ -27,7 +27,6 @@ def show_all_tasks(manager):
             print(f"   📊 Статус: {task.status}")
 
 def add_new_task(manager):
-    """Добавить новую задачу"""
     print("\n=== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===")
     while True:
         title = input("Введите название задачи: ").strip()

@@ -2,18 +2,18 @@ from datetime import datetime
 
 class Task:
     
-    def __init__(self,task,description = '', status = 'Активно',id = None):
+    def __init__(self,title,description = '', status = 'Активно', id = None):
         self.id = id
-        self.task = task
+        self.title = title
         self.description = description
         self.status = status
         self.created_at = datetime.now()
 
     def __str__(self):
-        return f'Задача № {self.id}: {self.task}\nОписание: {self.description}, дата создания: {self.created_at.strftime("%d.%m.%Y %H:%M")} \nСтатуc выполнения: {self.status}\n'
+        return f'Задача № {self.id}: {self.title}\nОписание: {self.description}, дата создания: {self.created_at.strftime("%d.%m.%Y %H:%M")} \nСтатуc выполнения: {self.status}\n'
     
     def __repr__(self):
-        return f'Task(id = {self.id!r}, Задача = {self.task!r}, Описание = {self.description!r}, дата создания: {self.created_at} Статуc выполнения = {self.status!r})'
+        return f'Task(id = {self.id!r}, Задача = {self.title!r}, Описание = {self.description!r}, дата создания: {self.created_at} Статуc выполнения = {self.status!r})'
    
     def is_completed(self):
         return self.status == 'Выполнено'
@@ -27,7 +27,7 @@ class Task:
     def to_dict(self):
         return {
             'id': self.id,
-            'task': self.task,
+            'title': self.title,
             'description': self.description,
             'status': self.status,
             'created_at': self.created_at.isoformat()
@@ -35,7 +35,7 @@ class Task:
     @classmethod
     def from_dict(cls, data):
         task = cls(
-            task = data['task'],
+            title = data['title'],
             description = data.get('description', ''),
             status = data.get('status', 'Активно'),
             id = data['id']
