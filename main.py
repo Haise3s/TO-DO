@@ -120,24 +120,29 @@ def delete_task(manager):
         for task in list(manager.tasks):
             manager.delete_task(task.id)
         print(f"Все задачи были успешно удалены!✅📝")
-
+    if manager.autosave:
+        manager.save_tasks()
+        
 def find_task(manager):
-    try:
-        task_id = int(input("\nВведите ID задачи для поиска: "))
-        task = manager.get_task(task_id)
-        
-        print(f"\n=== ЗАДАЧА #{task_id} ===")
-        status_icon = "✅" if task.status == "Выполнено" else "⏳"
-        print(f"{status_icon} {task.title}")
-        if task.description:
-            print(f"📝 Описание: {task.description}")
-        print(f"🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
-        print(f"📊 Статус: {task.status}")
-        
-    except ValueError:
-        print("❌ Некорректный ID!")
-    except Exception as e:
-        print(f"❌ {e}")
+    if not manager.tasks:
+        print("📭 Список задач пуст.")
+    else:
+        try:
+            task_id = int(input("\nВведите ID задачи для поиска: "))
+            task = manager.get_task(task_id)
+            
+            print(f"\n=== ЗАДАЧА #{task_id} ===")
+            status_icon = "✅" if task.status == "Выполнено" else "⏳"
+            print(f"{status_icon} {task.title}")
+            if task.description:
+                print(f"📝 Описание: {task.description}")
+            print(f"🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
+            print(f"📊 Статус: {task.status}")
+            
+        except ValueError:
+            print("❌ Некорректный ID!")
+        except Exception as e:
+            print(f"❌ {e}")
 
 def main():
     print("🚀 Загрузка TODO менеджера...")

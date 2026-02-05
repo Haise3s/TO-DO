@@ -58,8 +58,7 @@ class TaskManager():
     def delete_task(self, task_id):
         task = self.get_task(task_id)
         self.tasks.remove(task)
-        if self.autosave:
-            self.save_tasks()
+
 
     def complete_task(self,task_id):
         task = self.get_task(task_id)
