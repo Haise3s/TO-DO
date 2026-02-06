@@ -1,10 +1,11 @@
 from manager import TaskManager
+from utilits import print_task_card
 
 def print_menu():
     print("\n" + "="*50)
     print("TODO LIST МЕНЕДЖЕР")
     print("="*50)
-    print("1. 📋 Показать все задачи")
+    print("1. 📋 Показать задачи")
     print("2. ➕ Добавить задачу")
     print("3. ✅ Отметить задачу как выполненную")
     print("4. ❌ Удалить задачу")
@@ -13,13 +14,57 @@ def print_menu():
     print("7. 🚪 Выйти")
     print("="*50)
 
-def show_all_tasks(manager):
-    print("\n=== ВСЕ ЗАДАЧИ ===")
+def show_tasks(manager):
     if not manager.tasks:
         print("📭 Список задач пуст.")
     else:
+        print("1. Показать активные задачи")
+        print("2. Показать выполненные задачи")
+        print("3. Показать все задачи")
+        choice = input("\nВыберите действие (1-3): ").strip()
+        choice_dict = {'1':"\n===📊 АКТИВНЫЕ ЗАДАЧИ 📊===",
+                        '2':"\n===✅ ВЫПОЛНЕНЫЕ ЗАДАЧИ ✅ ===",
+                        '3':"\n=== ВСЕ ЗАДАЧИ ==="}
+        if choice not in choice_dict:
+            print("❌ Неверный выбор подменю. Попробуйте снова.")
+            return 
+        
+        print(choice_dict[choice])
         for task in manager.tasks:
-            print_task_card(task)
+            if choice == '1' and task.status == 'Активно': 
+                print_task_card(task)
+            elif choice == '2' and task.status == 'Выполнено':
+                print_task_card(task)
+            elif choice == '3':
+                print_task_card(task)
+
+def show_tasks_for_delete(manager):
+    if not manager.tasks:
+        print("📭 Список задач пуст.")
+    else:
+        print("1. Удалить одну задачу задачу")
+        print("2. Удалить все выполненные задачи")
+        print("3. Удалить все задачи")
+        choice = input("\nВыберите действие (1-3): ").strip()
+        if choice not in '123':
+            print("❌ Неверный выбор подменю. Попробуйте снова.")
+            return 
+        if choice == '1': 
+            print("\n=== ВЫБЕРИТЕ ЗАДАЧУ ===")
+            for task in manager.tasks:
+                status_icon = "✅" if task.status == "Выполнено" else "⏳"
+                print(f"{task.id:3}. {status_icon} {task.title}")
+        return choice
+    
+def show_tasks_for_complete(manager):
+    if not manager.tasks:
+        print("📭 Список задач пуст.")
+    else:
+        print("\n=== ВЫБЕРИТЕ ЗАДАЧУ ===")
+        for task in manager.tasks:
+            if task.status == 'Активно': 
+                status_icon = "⏳"
+                print(f"{task.id:3}. {status_icon} {task.title}")
 
 def add_new_task(manager):
     print("\n=== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===")
@@ -38,8 +83,7 @@ def add_new_task(manager):
         print(f"❌ Ошибка при добавлении: {e}")
 
 def complete_task(manager):
-    show_all_tasks(manager)
-    
+    show_tasks_for_complete(manager)
     try:
         task_id = int(input("\nВведите ID задачи для отметки: "))
         manager.complete_task(task_id)
@@ -50,29 +94,48 @@ def complete_task(manager):
         print(f"❌ Ошибка: {e}")
 
 def delete_task(manager):
-    show_all_tasks(manager)
-    
-    try:
-        task_id = int(input("\nВведите ID задачи для удаления: "))
-        manager.delete_task(task_id)
-        print(f"✅ Задача {task_id} удалена!")
-    except ValueError:
-        print("❌ Некорректный ID!")
-    except Exception as e:
-        print(f"❌ Ошибка: {e}")
-
+    choise = show_tasks_for_delete(manager)
+    if choise == '1':
+        try:
+            task_id = int(input("\nВведите ID задачи для удаления: "))
+            manager.delete_task(task_id)
+            print(f"✅ Задача {task_id} удалена!")
+        except ValueError:
+            print("❌ Некорректный ID!")
+        except Exception as e:
+            print(f"❌ Ошибка: {e}")
+    if choise == '2':
+        for task in  list(manager.tasks):
+            if task.status == 'Выполнено':
+                manager.delete_task(task.id)
+        print(f"Все выполенные задачи были успешно удалены!✅")
+    if choise == '3':
+        for task in list(manager.tasks):
+            manager.delete_task(task.id)
+        print(f"Все задачи были успешно удалены!✅📝")
+    if manager.autosave:
+        manager.save_tasks()
+        
 def find_task(manager):
-    try:
-        task_id = int(input("\nВведите ID задачи для поиска: "))
-        task = manager.get_task(task_id)
-        
-        print(f"\n=== ЗАДАЧА #{task_id} ===")
-        print_task_card(task)
-        
-    except ValueError:
-        print("❌ Некорректный ID!")
-    except Exception as e:
-        print(f"❌ {e}")
+    if not manager.tasks:
+        print("📭 Список задач пуст.")
+    else:
+        try:
+            task_id = int(input("\nВведите ID задачи для поиска: "))
+            task = manager.get_task(task_id)
+            
+            print(f"\n=== ЗАДАЧА #{task_id} ===")
+            status_icon = "✅" if task.status == "Выполнено" else "⏳"
+            print(f"{status_icon} {task.title}")
+            if task.description:
+                print(f"📝 Описание: {task.description}")
+            print(f"🕐 Создано: {task.created_at.strftime('%d.%m.%Y %H:%M')}")
+            print(f"📊 Статус: {task.status}")
+            
+        except ValueError:
+            print("❌ Некорректный ID!")
+        except Exception as e:
+            print(f"❌ {e}")
 
 def print_task_card(task):
     status_icon = "✅" if task.status == "Выполнено" else "⏳"
@@ -94,7 +157,7 @@ def main():
         choice = input("\nВыберите действие (1-7): ").strip()
         
         if choice == "1":
-            show_all_tasks(manager)
+            show_tasks(manager)
         elif choice == "2":
             add_new_task(manager)
         elif choice == "3":
